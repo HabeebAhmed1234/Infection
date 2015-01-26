@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title_text_size">70sp</dimen>
+    <dimen name="heading_size">30sp</dimen>
+    <dimen name="menu_item_size">40sp</dimen>
+    <dimen name="menu_sub_item_size">30sp</dimen>
+    <dimen name="menu_item_spacing">10sp</dimen>
+    <dimen name="menu_sub_item_spacing">5sp</dimen>
+    <dimen name="main_menu_top_padding">50sp</dimen>
+    <dimen name="main_menu_title_bottom_padding">20sp</dimen>
+    <dimen name="menu_to_icon_spacing">10sp</dimen>
+    <dimen name="heading_to_menu_item_spacing">30sp</dimen>
+</resources>

@@ -1,0 +1,91 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".GameFinishedActivity"
+    android:gravity="center_vertical" >
+
+    <TextView
+        android:id="@+id/gameoutcometext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_gravity="center"
+        android:textSize="@dimen/title_text_size"
+        android:textColor="@color/White"
+        android:layout_marginTop="50sp"
+        android:text="@string/outcometextlabel" />
+    
+    <TextView
+        android:id="@+id/timetext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/White"
+		android:layout_gravity="center"
+        android:layout_marginTop="5sp"
+        android:text="00:00" />
+    
+     <LinearLayout
+	    android:id="@+id/restartbutton"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+       	android:gravity="center"
+       	android:layout_marginTop="@dimen/heading_to_menu_item_spacing"
+       	android:layout_marginBottom="@dimen/menu_item_spacing"
+	    android:orientation="horizontal" >
+	
+		<TextView
+	        android:id="@+id/restartbuttontext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+        	android:background="@color/Transparent"
+        	android:textSize="@dimen/menu_item_size"
+        	android:textColor="@color/White"
+        	android:layout_marginRight="@dimen/menu_to_icon_spacing"
+	        android:text="@string/restartbuttonlabel"/> 
+		
+		<ImageView
+		    android:id="@+id/restartimage"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+			android:adjustViewBounds="true"  
+        	android:background="@color/Transparent"
+			android:maxWidth="@dimen/menu_item_size"  
+			android:maxHeight="@dimen/menu_item_size"   
+		    android:scaleType="fitCenter"   
+		    android:src="@drawable/restart_btn"/>
+	
+    </LinearLayout>
+    
+    <LinearLayout
+	    android:id="@+id/mainmenubutton"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+       	android:gravity="center"
+       	android:layout_marginTop="@dimen/heading_to_menu_item_spacing"
+       	android:layout_marginBottom="@dimen/menu_item_spacing"
+	    android:orientation="horizontal" >
+	
+		<TextView
+	        android:id="@+id/mainmenubuttontext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+        	android:background="@color/Transparent"
+        	android:textSize="@dimen/menu_item_size"
+        	android:textColor="@color/White"
+        	android:layout_marginRight="@dimen/menu_to_icon_spacing"
+	        android:text="@string/mainmenubuttonlabel"/> 
+		
+		<ImageView
+		    android:id="@+id/homeimage"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+			android:adjustViewBounds="true"  
+        	android:background="@color/Transparent"
+			android:maxWidth="@dimen/menu_item_size"  
+			android:maxHeight="@dimen/menu_item_size"   
+		    android:scaleType="fitCenter"   
+		    android:src="@drawable/home_btn"/> 
+	
+    </LinearLayout>
+</LinearLayout>
