@@ -22,7 +22,7 @@ public class GameAi {
 	}
 
 	public void update(float secondsElapsed){
-		if(gameManager.getGameClock() % Constants.GAME_AI_MAKE_MOVE_INTERVAL == 0)executeOneMove();
+		executeOneMove();
 	}
 	
 	private void executeOneMove()

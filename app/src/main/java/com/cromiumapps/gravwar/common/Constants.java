@@ -12,9 +12,7 @@ public class Constants {
 	public static final float MISSILE_SWARM_UPDATE_INTERVAL = 1;
 	public static final float PLANET_UPDATE_INTERVAL = 1;
 	public static final float GAME_OUTCOME_CHECK_INTERVAL = 100;
-	public static final float GAME_AI_UPDATE_INTERVAL = 1;
-	public static final float GAME_AI_MOVE_COMPUTE_UPDATE_INTERVAL = 30; //must be multiple of GAME_AI_UPDATE_INTERVAL
-	public static final float GAME_AI_MAKE_MOVE_INTERVAL =50; //must be multiple of GAME_AI_UPDATE_INTERVAL
+	public static final float GAME_AI_MAKE_MOVE_INTERVAL =10; //must be multiple of GAME_AI_UPDATE_INTERVAL
 	
 	//planet constants
 	public static final float PLANET_HEALTH_IN_MISSILES_TO_DIAMETER_RATIO = 5;

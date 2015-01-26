@@ -92,7 +92,7 @@ public class GameManager {
 		if(gameClock % Constants.COLLISION_CHECK_INTERVAL == 0) 		collisionManager.update();
 		if(gameClock % Constants.MISSILE_SWARM_UPDATE_INTERVAL == 0) 	missileSwarmManager.update();
 		if(gameClock % Constants.PLANET_UPDATE_INTERVAL == 0) planetManager.update();
-		if(gameClock % Constants.GAME_AI_UPDATE_INTERVAL == 0) gameAi.update(SecondsElapsed);
+		if(gameClock % Constants.GAME_AI_MAKE_MOVE_INTERVAL == 0) gameAi.update(SecondsElapsed);
 		if(gameClock % Constants.GAME_OUTCOME_CHECK_INTERVAL == 0) checkGameOutCome();
 	}
 	
