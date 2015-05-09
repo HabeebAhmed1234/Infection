@@ -17,24 +17,20 @@ public class GameResourceManager {
 	public static final int NEUTRAL_PLANET_TEXTURE_INDEX = 1;
 	public static final int PLAYER_PLANET_TEXTURE_INDEX = 2;
 	public static final int PLANET_SELECTOR_TEXTURE_INDEX = 3;
+
 	public static final String FONT_FILE_PATH = "fnt/heavy_data.ttf";
 	public static final String PLANET_IMAGE_FILE_PATH = "Planet.png";
 	public static final String MISSILE_PLAYER_IMAGE_FILE_PATH = "Missile_Player.png";
 	public static final String MISSILE_ENEMY_IMAGE_FILE_PATH = "Missile_Enemy.png";
 	
 	public static final String EXPLOSION_1_IMAGE_FILE_PATH = "explosion1.png";
-	public static final String EXPLOSION_3_IMAGE_FILE_PATH = "explosion3.png";
-	
-	public static final String PLAYER_DOCK_IMAGE_FILE_PATH = "playerdock2.png";
-	public static final String ENEMY_DOCK_IMAGE_FILE_PATH = "enemydock2.png";
+	public static final String EXPLOSION_2_IMAGE_FILE_PATH = "explosion2.png";
 	
 	public static ITiledTextureRegion tiledPlanetTexture; 
 	private static ITiledTextureRegion missileTexturePlayer;
 	private static ITiledTextureRegion missileTextureEnemy;
 
 	private static ArrayList<ITiledTextureRegion> explosionTextures = new ArrayList<ITiledTextureRegion>();
-	private static ITiledTextureRegion enemyDockTexture;
-	private static ITiledTextureRegion playerDockTexture;
 	
 	public static Font font; 
 	
@@ -48,14 +44,9 @@ public class GameResourceManager {
 		return missileTextureEnemy;
 	}
 	
-	public static ITiledTextureRegion getExplosionTextureRegion(){
-		int index = (int) (Math.random()*2);
+	public static ITiledTextureRegion getExplosionTextureRegion() {
+		int index = (int) (Math.random() * 2);
 		return explosionTextures.get(index);
-	}
-	
-	public static ITiledTextureRegion getDockTextureRegion(boolean isEnemy){ 
-		if(isEnemy) return enemyDockTexture;
-		return playerDockTexture;
 	}
 	
 	private static void loadTextures(SimpleBaseGameActivity context)
@@ -63,22 +54,17 @@ public class GameResourceManager {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		BitmapTextureAtlas BitmapTextureAtlas1 = new BitmapTextureAtlas(context.getTextureManager(), 1024, 1024);
 		BitmapTextureAtlas BitmapTextureAtlas2 = new BitmapTextureAtlas(context.getTextureManager(), 1024, 1024);
-		BitmapTextureAtlas BitmapTextureAtlas3 = new BitmapTextureAtlas(context.getTextureManager(), 1024, 1024);
 		
 		tiledPlanetTexture = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(BitmapTextureAtlas1, context, PLANET_IMAGE_FILE_PATH, 0, 0, 2, 2);
 		missileTexturePlayer = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(BitmapTextureAtlas1, context, MISSILE_PLAYER_IMAGE_FILE_PATH, 0, 920,1,1);
 		missileTextureEnemy = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(BitmapTextureAtlas1, context, MISSILE_ENEMY_IMAGE_FILE_PATH, 33, 920,1,1);
-		
-		playerDockTexture = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(BitmapTextureAtlas2, context, PLAYER_DOCK_IMAGE_FILE_PATH, 0, 0 ,4,4);
-		enemyDockTexture = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(BitmapTextureAtlas2, context, ENEMY_DOCK_IMAGE_FILE_PATH, 0, 308 ,4,4);
-		
-		explosionTextures.add(BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(BitmapTextureAtlas3, context, EXPLOSION_1_IMAGE_FILE_PATH, 0, 0,5,3));
-		explosionTextures.add(BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(BitmapTextureAtlas3, context, EXPLOSION_3_IMAGE_FILE_PATH, 0, 288,3,4));
+
+		explosionTextures.add(BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(BitmapTextureAtlas2, context, EXPLOSION_1_IMAGE_FILE_PATH, 0, 0,8,1));
+		explosionTextures.add(BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(BitmapTextureAtlas2, context, EXPLOSION_2_IMAGE_FILE_PATH, 0, 128,5,1));
 		
 		Log.d(TAG, "BitmapTextureAtlas.load"); 
 		BitmapTextureAtlas1.load(); 
-		BitmapTextureAtlas2.load(); 
-		BitmapTextureAtlas3.load();  
+		BitmapTextureAtlas2.load();
 	}
 	
 	private static void loadFonts(SimpleBaseGameActivity context){

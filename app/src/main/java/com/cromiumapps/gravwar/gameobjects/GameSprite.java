@@ -22,12 +22,6 @@ public class GameSprite extends AnimatedSprite  {
 		mEngine = engine;
 	}
 	
-	/*@Override 
-	public void setScale(float scale){
-		scale = scale * GameCamera.GAME_SCALING_FACTOR;
-		super.setScale(scale);
-	}*/
-	
 	public void setAngle(Angle a)
 	{
 		setRotation(a.get());

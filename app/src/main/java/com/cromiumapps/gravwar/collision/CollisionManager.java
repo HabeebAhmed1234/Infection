@@ -57,6 +57,11 @@ public class CollisionManager {
 		{
 			gameManager.missileSwarmManager.collided(missile.getId());
 			gameManager.planetManager.hit(planet.getId());
+
+			// if this is a player planet then the screen should shake to warn the player
+			if (planet.isPlayerPlanet() && gameManager.isPlayerAboutToLose()) {
+				gameManager.getGameCamera().shake(500, 1);
+			}
 		}
 		
 		if((missile.getSourcePlanetType() == PlanetType.PLANET_TYPE_ENEMY && planet.isEnemy()) 

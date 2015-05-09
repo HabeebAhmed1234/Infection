@@ -30,7 +30,6 @@ public class Missile {
 	private Position m_destinationPosition = new Position(0,0);
 	private GameSprite missileSprite;
 	private GameSprite mExplosionSprite;
-	private GameSprite mDockSprite;
 	private final PlanetType fromPlanetType;
 	private final float fromPlanetId;
 	private float m_id = 0;
@@ -55,8 +54,6 @@ public class Missile {
 
         mExplosionSprite = new GameSprite(0, 0, GameResourceManager.getExplosionTextureRegion(), vertexBufferObjectManager, true,mEngine);
         mExplosionSprite.setScale(EXPLOSION_SCALE);
-        mDockSprite = new GameSprite(0, 0, GameResourceManager.getDockTextureRegion(fromPlanet.isEnemy()), vertexBufferObjectManager, true,mEngine);
-        mDockSprite.setScale(MISSILE_SCALE);
         missileSprite = new GameSprite(m_position.getX(),m_position.getY(),GameResourceManager.getMissileTexture(fromPlanet.isPlayerPlanet()),vertexBufferObjectManager,true,mEngine);
 		missileSprite.setUserData(m_id);
 		m_currentAngle = Utilities.getVectorAngleFromComponents(v_x, v_y);
@@ -154,10 +151,6 @@ public class Missile {
 	
 	public void dock()
 	{
-		mDockSprite.animate(100, true);
-		mDockSprite.setPosition(missileSprite.getX(), missileSprite.getY());
-		mDockSprite.setRotation(missileSprite.getRotation());
-		mGameScene.attachChild(mDockSprite);
 		missileSprite.detachSelf();
 	}
 }

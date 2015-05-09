@@ -179,4 +179,8 @@ public class GameManager {
 			}
 		}
 	}
+
+	public boolean isPlayerAboutToLose(){
+		return planetManager.isPlayerLosing();
+	}
 }

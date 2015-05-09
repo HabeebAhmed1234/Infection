@@ -1,5 +1,6 @@
 package com.cromiumapps.gravwar.planets;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import org.andengine.engine.Engine;
@@ -136,7 +137,28 @@ public class PlanetManager {
 	{
 		return this.m_planets;
 	}
-	
+
+	public boolean isPlayerLosing(){
+		ArrayList<Planet> allPlanets = getAllPlanets();
+		int injuredEnemyPlanets = 0;
+		int numEnemyPlanets = 0;
+		int injuredPlayerPlanets = 0;
+		int numPlayerPlanets = 0;
+
+		for (Planet planet : allPlanets) {
+			if (planet.isPlayerPlanet()) {
+				numPlayerPlanets ++;
+				if (planet.isAboutToDie()) injuredPlayerPlanets ++;
+			}
+			if (planet.isEnemy()) {
+				numEnemyPlanets ++;
+				if (planet.isAboutToDie()) injuredEnemyPlanets++;
+			}
+		}
+		if (numPlayerPlanets < numEnemyPlanets && injuredPlayerPlanets > injuredEnemyPlanets) return true;
+		return false;
+	}
+
 	public boolean isAllEnemies()
 	{
 		boolean allAreEnemies = true;
@@ -147,7 +169,7 @@ public class PlanetManager {
 		
 		return allAreEnemies;
 	}
-	
+
 	public boolean isAllPlayers()
 	{
 		boolean allArePlayers = true;

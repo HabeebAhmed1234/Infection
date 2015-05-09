@@ -196,7 +196,11 @@ public class Planet {
 	{
 		return this.m_planetType;
 	}
-	
+
+	public boolean isAboutToDie(){
+		return this.m_healthInMissiles <= Constants.PLANET_MAX_HEALTH/4;
+	}
+
 	public boolean isEnemy()
 	{
 		return m_planetType == PlanetType.PLANET_TYPE_ENEMY;
@@ -266,7 +270,7 @@ public class Planet {
 	}
 	
 	private void updateHealthText(){
-		healthText.setText(Float.toString(m_healthInMissiles));
+		healthText.setText(Integer.toString((int)m_healthInMissiles));
 	}
 	
 	private void updateSprite(){
