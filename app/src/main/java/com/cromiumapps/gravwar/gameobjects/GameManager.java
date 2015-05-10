@@ -40,7 +40,7 @@ public class GameManager {
 	private GameOutcomeListener gameOutcomeListener;
 	private HUD hud;
 	public HUD getHud(){return hud;}
-	
+
 	private float gameClock = 0;
 	//managers
 	public PlanetManager planetManager;
@@ -48,7 +48,7 @@ public class GameManager {
 	public GameScene gameScene;
 	public Engine mEngine;
 	
-	public float numMissilesReadyToFire = 0;
+	public int numMissilesReadyToFire = 0;
 	
 	public GameManager(GameOutcomeListener gameOutcomeListener, Engine engine, VertexBufferObjectManager vertexBufferObjectManager, GameScene gameScene, GameCamera gameCamera)
 	{
@@ -92,7 +92,7 @@ public class GameManager {
 		if(gameClock % Constants.COLLISION_CHECK_INTERVAL == 0) 		collisionManager.update();
 		if(gameClock % Constants.MISSILE_SWARM_UPDATE_INTERVAL == 0) 	missileSwarmManager.update();
 		if(gameClock % Constants.PLANET_UPDATE_INTERVAL == 0) planetManager.update();
-		if(gameClock % Constants.GAME_AI_MAKE_MOVE_INTERVAL == 0) gameAi.update(SecondsElapsed);
+		if(gameClock % Constants.GAME_AI_MAKE_MOVE_INTERVAL == 0) gameAi.update();
 		if(gameClock % Constants.GAME_OUTCOME_CHECK_INTERVAL == 0) checkGameOutCome();
 	}
 	
@@ -120,7 +120,7 @@ public class GameManager {
 	{
 		
 	}
-	
+
 	public float getGameClock(){
 		return this.gameClock;
 	}
@@ -144,7 +144,7 @@ public class GameManager {
 		//planetManager.deSelectAllPlanets(); 
 	}
 	
-	public void onTouchPlanet(TouchEvent event, float touchedPlanetID)
+	public void onTouchPlanet(TouchEvent event, int touchedPlanetID)
 	{
 		if(!event.isActionUp()) return;
 		//Log.d("GravWar", "GameManager: touch event on a planet of id +" + touchedPlanetID);
@@ -154,7 +154,7 @@ public class GameManager {
 			if(prevSelectedPlanet!=null)makeAMove(new Move(numMissilesReadyToFire,prevSelectedPlanet,touchedPlanet,false));
 			numMissilesReadyToFire = 0;
 		} catch (InvalidMoveException e) {
-			e.printWhat();
+			Log.e(TAG, e.getMessage());
 		}
 		planetManager.selectPlanetByID(touchedPlanetID);
 		this.hud.updateMissilesSelectedText(numMissilesReadyToFire);
@@ -164,7 +164,6 @@ public class GameManager {
 	{
 		if(move.missilesToFireAmmount>0)
 		{
-			
 			if(this.hud.isMovePermissible(move,planetManager))
 			{
 				//Log.d("GravWar", "GameManager: firing missile swarm from planet id " + move.fromPlanetId+" to planet id"+move.toPlanetId);

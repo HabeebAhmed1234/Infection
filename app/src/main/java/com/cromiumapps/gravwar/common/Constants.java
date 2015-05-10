@@ -1,5 +1,7 @@
 package com.cromiumapps.gravwar.common;
 
+import org.andengine.util.adt.color.Color;
+
 public class Constants {
 	//game outcome constants
 	public static enum GAME_OUTCOME {WIN, LOSE};
@@ -13,14 +15,15 @@ public class Constants {
 	public static final float PLANET_UPDATE_INTERVAL = 1;
 	public static final float GAME_OUTCOME_CHECK_INTERVAL = 100;
 	public static final float GAME_AI_MAKE_MOVE_INTERVAL =10; //must be multiple of GAME_AI_UPDATE_INTERVAL
+	public static final float GAME_AI_GENERATE_MOVES_INTERVAL_SECS = 5;
 	
 	//planet constants
 	public static final float PLANET_HEALTH_IN_MISSILES_TO_DIAMETER_RATIO = 5;
-	public static final float PLANET_MISSILES_PER_SELECTION = 2;
-	public static final float PLANET_HEALTH_PER_MISSILE = 1;
-	public static final float PLANET_MISSILE_REGENERATION_AMMOUNT = 1;
-	public static final float PLANET_MAX_HEALTH = 15;
-	public static final float MINIMUM_PLANET_DIAMETER_IN_MISSILES = 7;
+	public static final int PLANET_MISSILES_PER_SELECTION = 2;
+	public static final int PLANET_HEALTH_PER_MISSILE = 1;
+	public static final int PLANET_MISSILE_REGENERATION_AMMOUNT = 1;
+	public static final int PLANET_MAX_HEALTH = 15;
+	public static final int MINIMUM_PLANET_DIAMETER_IN_MISSILES = 7;
 	
 	//missile constants
 	public static final float MISSILE_PLANET_TO_MISSILE_GAP = 40;
@@ -33,5 +36,8 @@ public class Constants {
 	
 	//Ai constants
 	public static final float PERCENTAGE_OF_MISSILES_TO_BE_FIRED_BY_AI = 0.75f;
-	
+
+	//colors
+	public static final Color COLOR_BLACK = new Color(0, 0, 0);
+	public static final Color COLOR_WHITE = new Color(255, 255, 255);
 }

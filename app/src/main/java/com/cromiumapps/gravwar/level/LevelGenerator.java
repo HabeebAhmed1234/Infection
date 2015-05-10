@@ -98,9 +98,9 @@ public class LevelGenerator {
 		}	
 	}
 	
-	private float getUniquePlanetId()
+	private int getUniquePlanetId()
 	{
-		float max = 0;
+		int max = 0;
 		for(int i = 0 ; i < m_levelPlanets.size();i++)
 		{
 			if(m_levelPlanets.get(i).getId()>max)

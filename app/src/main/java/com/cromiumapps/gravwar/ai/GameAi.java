@@ -7,31 +7,87 @@ import com.cromiumapps.gravwar.planets.Planet;
 import com.cromiumapps.gravwar.common.Constants;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 public class GameAi {
     private static final String TAG = "GameAi";
 	private GameManager gameManager;
 
-	public GameAi(GameManager gameManager)
-	{
+	private ArrayList<Move> mMoveList = new ArrayList<Move>();
+	Map<Integer, Set<Planet>> mAdjList;
+	ArrayList<Planet> mAllPlanets;
+
+	public GameAi(GameManager gameManager) {
 		this.gameManager = gameManager;
+
+		Runnable moveGenerator = new Runnable() {
+			@Override
+			public void run() {
+				generateMoves();
+				new Handler(Looper.getMainLooper()).postDelayed(this, (long) Constants.GAME_AI_GENERATE_MOVES_INTERVAL_SECS * 1000);
+			}
+		};
+
+		new Handler(Looper.getMainLooper()).postDelayed(moveGenerator, (long) Constants.GAME_AI_GENERATE_MOVES_INTERVAL_SECS * 1000);
+
+		mAdjList = gameManager.getHud().getAdjacencyList();
+		mAllPlanets = gameManager.planetManager.getAllPlanets();
 	}
 
-	public void update(float secondsElapsed){
-		executeOneMove();
+	public void update(){
+		synchronized (mMoveList) {
+			if (mMoveList.size() > 0) {
+				Log.d(TAG, "making a move");
+				gameManager.makeAMove(mMoveList.get(0));
+				mMoveList.remove(0);
+			}
+		}
 	}
-	
-	private void executeOneMove()
-	{
-		Move move = getMove();
-		if (move != null)
-			gameManager.makeAMove(move);
+
+	private void generateMoves(){
+		Log.d(TAG, "generating moves");
+		synchronized (mMoveList) {
+			Map<Integer, Boolean> targetList = new HashMap<Integer, Boolean>(); // if a planet is targeted then it is added to this map as true
+
+			for (Planet planet : mAllPlanets) {
+				if (mAdjList.containsKey(planet.getId()) && planet.isEnemy()) {
+					Set<Planet> adjacentPlanets = mAdjList.get(planet.getId());
+					for (Planet adjPlanet : adjacentPlanets) {
+						boolean isTargeted = false;
+						if (targetList.containsKey(adjPlanet.getId())) {
+							isTargeted = targetList.get(adjPlanet.getId());
+						}
+						if (adjPlanet.isPlayerPlanet() && !isTargeted) {
+							try {
+								mMoveList.add(new Move((int)planet.getHealthInMissiles() / 5, planet, adjPlanet, true));
+								targetList.put(adjPlanet.getId(), true);
+							} catch (InvalidMoveException e) {
+								Log.e(TAG, e.getMessage());
+							}
+						} else if (adjPlanet.isEnemy()) {
+							if (adjPlanet.getPosition().getY() > planet.getPosition().getY()) {
+								try {
+									mMoveList.add(new Move((int)planet.getHealthInMissiles() / 5, planet, adjPlanet, true));
+								} catch (InvalidMoveException e) {
+									Log.e(TAG, e.getMessage());
+								}
+							}
+						}
+					}
+				}
+			}
+
+			Log.d(TAG, "currently " + mMoveList.size() + " moves are pending");
+		}
 	}
-	
+
+	/*
 	private Move getMove(){
 		ArrayList<Move> movesList = new ArrayList<Move>();
 		ArrayList <Planet> allPlanets = gameManager.planetManager.getAllPlanets();
@@ -91,11 +147,11 @@ public class GameAi {
             	
             	//the bigger a factor the better the move
             	//the weights should add up to 100
-            	float aPositionFactor = getPositionFactor(aToPlanet, 50);
-            	float aHealthFactor = getHealthFactor(aFromPlanet, aToPlanet,50);
+            	float aPositionFactor = getPositionFactor(aToPlanet, 30);
+            	float aHealthFactor = getHealthFactor(aFromPlanet, aToPlanet,70);
 
-            	float bPositionFactor = getPositionFactor(bToPlanet, 50);
-            	float bHealthFactor = getHealthFactor(bFromPlanet, bToPlanet,50);
+            	float bPositionFactor = getPositionFactor(bToPlanet, 30);
+            	float bHealthFactor = getHealthFactor(bFromPlanet, bToPlanet,70);
             	
             	float aFactor = aPositionFactor + aHealthFactor;
             	float bFactor = bPositionFactor + bHealthFactor;
@@ -161,5 +217,5 @@ public class GameAi {
         }
         if (numMissiles == fromPlanet.getHealthInMissiles()) numMissiles--;
         return numMissiles;
-	}
+	}*/
 }

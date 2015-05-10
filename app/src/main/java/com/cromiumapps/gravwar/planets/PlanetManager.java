@@ -14,6 +14,7 @@ import com.cromiumapps.gravwar.common.Constants;
 import android.util.Log;
 
 public class PlanetManager {
+	private static final String TAG = "PlanetManager";
 	private ArrayList <Planet> m_planets = new ArrayList<Planet>();
 	private VertexBufferObjectManager vertexBufferObjectManager;
 	private GameScene gameScene;
@@ -27,7 +28,7 @@ public class PlanetManager {
 		this.gameManager = gameManager;
 		this.mEngine = engine;
 		
-		Log.d("GravWar","PlanetManager - Constructor: number of planets to add is" + planets.size());
+		Log.d("GravWar", "PlanetManager - Constructor: number of planets to add is" + planets.size());
 		
 		for(int i = 0 ; i < planets.size() ; i++)
 		{
@@ -38,7 +39,7 @@ public class PlanetManager {
 		}
 	}
 	
-	public void addPlanet (float id, float x, float y, float diameter, PlanetType planetType)
+	public void addPlanet (int id, float x, float y, float diameter, PlanetType planetType)
 	{
 		Log.d("GravWar", "PlanetManager: adding new planet");
 		Planet newPlanet = new Planet (id,x,y,diameter,planetType, mEngine, vertexBufferObjectManager, this.gameManager, this.gameScene);
@@ -59,7 +60,7 @@ public class PlanetManager {
 		}
 	}
 	
-	public Planet getPlanetByID(float id)
+	public Planet getPlanetByID(int id)
 	{
 		for(int i = 0 ;i<this.m_planets.size();i++)
 		{
@@ -71,7 +72,7 @@ public class PlanetManager {
 		return null;
 	}
 	
-	public void selectPlanetByID(float id)
+	public void selectPlanetByID(int id)
 	{
 		for(int i = 0 ;i<this.m_planets.size();i++)
 		{
@@ -85,7 +86,7 @@ public class PlanetManager {
 		}
 	}
 	
-	public void deSelectPlanetByID(float id)
+	public void deSelectPlanetByID(int id)
 	{
 		for(int i = 0 ;i<this.m_planets.size();i++)
 		{
@@ -181,17 +182,19 @@ public class PlanetManager {
 		return allArePlayers;
 	}
 	
-	public void hit(float id)
+	public void hit(int id)
 	{
-		getPlanetByID(id).damageHealth(1);
+		if(!getPlanetByID(id).damageHealth(1)){
+			Log.e(TAG, "Failed to damage health of planet id = "+id);
+		}
 	}
 	
-	public void dockedMissile(float id)
+	public void dockedMissile(int id)
 	{
 		getPlanetByID(id).increaseHealth(1);
 	}
 	
-	public void convertedPlanet(float id, PlanetType typeToConvertTo)
+	public void convertedPlanet(int id, PlanetType typeToConvertTo)
 	{
 		getPlanetByID(id).convertTo(typeToConvertTo);
 	}

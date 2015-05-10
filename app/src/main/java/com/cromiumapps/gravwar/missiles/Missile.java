@@ -32,11 +32,11 @@ public class Missile {
 	private GameSprite mExplosionSprite;
 	private final PlanetType fromPlanetType;
 	private final float fromPlanetId;
-	private float m_id = 0;
+	private int m_id = 0;
 	private float v_x = 3;
 	private float v_y = 3;
 	
-	Missile(float [] vxvy, float id, Planet fromPlanet, Position origin, Position destination, Engine engine, VertexBufferObjectManager vertexBufferObjectManager, GameScene gameScene) throws InvalidMissileException
+	Missile(float [] vxvy, int id, Planet fromPlanet, Position origin, Position destination, Engine engine, VertexBufferObjectManager vertexBufferObjectManager, GameScene gameScene) throws InvalidMissileException
 	{ 
 		m_id = id;
 		mGameScene = gameScene;

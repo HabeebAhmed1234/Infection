@@ -7,6 +7,7 @@ import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.util.adt.color.Color;
 
 import android.util.Log;
 
@@ -18,7 +19,7 @@ import com.cromiumapps.gravwar.Position;
 import com.cromiumapps.gravwar.common.Constants;
 
 public class Planet {
-
+	private static final String TAG = "_Planet";
 	public static enum PlanetType {PLANET_TYPE_ENEMY,PLANET_TYPE_PLAYER,PLANET_TYPE_NEUTRAL};
 	
 	//graphics stuff
@@ -30,15 +31,21 @@ public class Planet {
 	//game stuff
 	private boolean isAddedToScreen = false;
 	private float m_diameter;
-	private float m_healthInMissiles;
-	private float m_id;
+	private int m_healthInMissiles;
+	private int m_id;
 	private PlanetType m_planetType = PlanetType.PLANET_TYPE_NEUTRAL;
 	private ArrayList<Integer> m_linkedPlanets;
 	private GameSprite m_planetSprite;
 	private GameSprite m_planetSelectorSprite;
 	private boolean m_isSelected;
+
+	@Override
+	public boolean equals(Object other){
+		if (!(other instanceof Planet)) return false;
+		return this.m_id == ((Planet)other).getId();
+	}
 	
-	public Planet(float id
+	public Planet(int id
             , float x
             , float y
             , float diameter
@@ -51,7 +58,7 @@ public class Planet {
 		this.vertexBufferObjectManager = vertexBufferObjectManager;
 		this.gameScene = gameScene;
 		this.gameManager = gameManager;
-		m_healthInMissiles = diameter/ Constants.PLANET_HEALTH_IN_MISSILES_TO_DIAMETER_RATIO;
+		m_healthInMissiles = (int)(diameter/ Constants.PLANET_HEALTH_IN_MISSILES_TO_DIAMETER_RATIO);
 		m_diameter = diameter;
 		m_id = id;
 		m_planetType = planetType;
@@ -62,7 +69,7 @@ public class Planet {
 		m_planetSprite = new GameSprite(x,y,planetTexture, vertexBufferObjectManager,true,engine){
 		    @Override
 		    public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-		    	gameManager.onTouchPlanet(pSceneTouchEvent,(Float) (this.getUserData()));
+		    	gameManager.onTouchPlanet(pSceneTouchEvent, (Integer) getUserData());
 				return true;
 		    }
 		};
@@ -156,7 +163,10 @@ public class Planet {
 	//returns true is sucessfully damaged else false
 	public boolean damageHealth(float damage)
 	{
-		if(m_planetType == PlanetType.PLANET_TYPE_NEUTRAL || (m_healthInMissiles-damage)<0) return false;
+		if(m_planetType == PlanetType.PLANET_TYPE_NEUTRAL || (m_healthInMissiles-damage)<0) {
+			Log.e(TAG, "Damage health for planet " + m_id + " failed. type = " + m_planetType + " m_healthInMissiles = " + m_healthInMissiles);
+			return false;
+		}
 		this.m_healthInMissiles -= damage;
 		if(this.m_healthInMissiles <=0)
 		{
@@ -184,10 +194,16 @@ public class Planet {
 	{
 		m_planetType = planetTypeToConvertTo;
 		m_isSelected = false;
+		if (m_planetType == PlanetType.PLANET_TYPE_ENEMY) {
+			healthText.setColor(Constants.COLOR_WHITE);
+		} else if (m_planetType == PlanetType.PLANET_TYPE_NEUTRAL || m_planetType == PlanetType.PLANET_TYPE_PLAYER){
+			healthText.setColor(Constants.COLOR_BLACK);
+		}
+
 		updateSprite();
 	}
 	
-	public float getId()
+	public int getId()
 	{
 		return this.m_id;
 	}
@@ -265,7 +281,13 @@ public class Planet {
 	
 	private void initHealthText(){
 		healthText = new Text(0, 0, GameResourceManager.font, Integer.toString((int)Math.round(m_healthInMissiles)),100, this.vertexBufferObjectManager);
-	    this.gameScene.attachChild(healthText);
+	    if (isPlayerPlanet()) {
+			healthText.setColor(Constants.COLOR_BLACK);
+		} else {
+			healthText.setColor(Constants.COLOR_WHITE);
+		}
+
+		this.gameScene.attachChild(healthText);
 	    healthText.setPosition(this.getPosition().getX(), this.getPosition().getY());
 	}
 	

@@ -3,9 +3,9 @@ package com.cromiumapps.gravwar.missiles;
 import java.util.ArrayList;
 
 public class MissileIdRegistry {
-	public static ArrayList <Float> REGISTERED_MISSILE_IDS = new ArrayList <Float>();
+	public static ArrayList <Integer> REGISTERED_MISSILE_IDS = new ArrayList <Integer>();
 	
-	public static void registerId(float id)
+	public static void registerId(int id)
 	{
 		for(int i = 0 ; i < REGISTERED_MISSILE_IDS.size() ; i++)
 		{
@@ -30,9 +30,9 @@ public class MissileIdRegistry {
 		}
 	}
 	
-	public static float getUniqueMissileId()
+	public static int getUniqueMissileId()
 	{
-		float max = 0;
+		int max = 0;
 		for(int i = 0 ; i < REGISTERED_MISSILE_IDS.size();i++)
 		{
 			if(REGISTERED_MISSILE_IDS.get(i)>max)
